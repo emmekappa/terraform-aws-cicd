@@ -17,3 +17,7 @@ output "cache_bucket_name" {
 output "terraform_project_name" {
   value = "${aws_codebuild_project.terraform.name}"
 }
+
+output "terraform_project_id" {
+  value = "${aws_codebuild_project.terraform.id}"
+}

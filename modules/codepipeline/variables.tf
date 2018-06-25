@@ -116,11 +116,13 @@ variable "codebuild_build_project_name" {
   description = "CodeBuild project that build the sources"
 }
 
+variable "codebuild_build_project_id" {}
+
 variable "codebuild_terraform_project_name" {
   type        = "string"
   description = "CodeBuild project to run Terraform"
 }
 
-variable "codebuild_build_project_id" {}
+variable "codebuild_terraform_project_id" {}
 
 variable "codebuild_role_arn" {}
