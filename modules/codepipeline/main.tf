@@ -126,8 +126,12 @@ data "aws_iam_policy_document" "codebuild" {
       "codebuild:*",
     ]
 
-    resources = ["${var.codebuild_build_project_id}"]
-    effect    = "Allow"
+    resources = [
+      "${var.codebuild_build_project_id}",
+      "${var.codebuild_terraform_project_id}",
+    ]
+
+    effect = "Allow"
   }
 }
 
