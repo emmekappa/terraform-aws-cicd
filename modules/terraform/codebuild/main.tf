@@ -46,6 +46,7 @@ data "aws_iam_policy_document" "permissions" {
       "s3:*",
       "dynamodb:*",
       "elasticbeanstalk:*",
+      "iam:*",
     ]
 
     effect = "Allow"
