@@ -177,7 +177,7 @@ resource "aws_codepipeline" "source_build" {
   stage {
     name = "Build"
 
-    action {
+    /*action {
       name     = "Build"
       category = "Build"
       owner    = "AWS"
@@ -190,7 +190,7 @@ resource "aws_codepipeline" "source_build" {
       configuration {
         ProjectName = "${var.codebuild_build_project_name}"
       }
-    }
+    }*/
 
     action {
       name     = "Terraform-planning"
