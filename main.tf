@@ -26,7 +26,7 @@ module "codebuild_build" {
 }
 
 module "codepipeline" {
-  source    = "github.com/emmekappa/terraform-aws-codepipeline"
+  source    = "modules/codepipeline"
   namespace = "${var.namespace}"
   name      = "${var.name}"
   stage     = "${var.stage}"
