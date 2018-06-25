@@ -6,7 +6,7 @@ data "aws_region" "default" {}
 data "aws_caller_identity" "default" {}
 
 module "codebuild_build" {
-  source             = "github.com/emmekappa/terraform-aws-codebuild"
+  source             = "../modules/codebuild"
   namespace          = "${var.namespace}"
   name               = "${var.name}"
   stage              = "${var.stage}"
