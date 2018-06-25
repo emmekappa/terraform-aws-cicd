@@ -10,15 +10,7 @@ install:
 
 script:
   - pushd modules/docker
-  - make terraform:install
-  - make terraform:get-plugins
-  - make terraform:get-modules
-  - make terraform:lint
-  - make terraform:validate
+  - make lint
   - popd
   - pushd modules/terraform
-  - make terraform:install
-  - make terraform:get-plugins
-  - make terraform:get-modules
-  - make terraform:lint
-  - make terraform:validate
+  - make lint
