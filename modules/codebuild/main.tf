@@ -226,8 +226,8 @@ resource "aws_codebuild_project" "terraform" {
         "value" = "${signum(length(var.aws_account_id)) == 1 ? var.aws_account_id : data.aws_caller_identity.default.account_id}"
       },
       {
-        "name"  = "SLACK_TOKEN"
-        "value" = "${signum(length(var.slack_token)) == 1 ? var.slack_token : "UNSET"}"
+        "name"  = "SLACK_WEBHOOK_URL"
+        "value" = "${signum(length(var.slack_webhook_url)) == 1 ? var.slack_webhook_url : "UNSET"}"
       },
       {
         "name"  = "SLACK_CHANNEL"
