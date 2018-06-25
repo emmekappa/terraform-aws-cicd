@@ -1,10 +1,3 @@
-variable "github_token" {}
-
-variable "build_image" {
-  default     = "aws/codebuild/docker:1.12.1"
-  description = "Docker image for build environment, _e.g._ `aws/codebuild/docker:1.12.1` or `aws/codebuild/eb-nodejs-6.10.0-amazonlinux-64:4.0.0`"
-}
-
 variable "namespace" {
   default     = "global"
   description = "Namespace, which could be your organization name, e.g. 'cp' or 'cloudposse'"
@@ -52,6 +45,11 @@ variable "repo_name" {
 variable "branches" {
   type        = "list"
   description = "A list of branches to monitor (will be created one codepipeline project for each branch), _e.g._ ``master``"
+}
+
+variable "build_image" {
+  default     = "aws/codebuild/docker:1.12.1"
+  description = "Docker image for build environment, _e.g._ `aws/codebuild/docker:1.12.1` or `aws/codebuild/eb-nodejs-6.10.0-amazonlinux-64:4.0.0`"
 }
 
 variable "build_compute_type" {
@@ -112,3 +110,12 @@ variable "image_repo_name" {
   default     = "UNSET"
   description = "ECR repository name to store the Docker image built by this module. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
 }
+
+variable "codebuild_build_project_name" {
+  type        = "string"
+  description = "CodeBuild project that build the sources"
+}
+
+variable "codebuild_build_project_id" {}
+
+variable "codebuild_role_arn" {}
