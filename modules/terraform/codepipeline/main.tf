@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "default" {
       "rds:*",
       "sqs:*",
       "ecs:*",
-      "iam:PassRole",
+      "iam:*",
     ]
 
     resources = ["*"]
