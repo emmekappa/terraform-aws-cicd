@@ -13,3 +13,7 @@ output "role_arn" {
 output "cache_bucket_name" {
   value = "${var.cache_enabled == "true" ? aws_s3_bucket.cache_bucket.0.bucket : "UNSET" }"
 }
+
+output "terraform_project_name" {
+  value = "${aws_codebuild_project.terraform.name}"
+}

@@ -112,3 +112,5 @@ variable "image_repo_name" {
   default     = "UNSET"
   description = "ECR repository name to store the Docker image built by this module. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
 }
+
+variable "slack_webhook_url" {}
