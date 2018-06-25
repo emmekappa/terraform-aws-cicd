@@ -5,7 +5,7 @@ provider "aws" {
 data "aws_region" "default" {}
 data "aws_caller_identity" "default" {}
 
-module "codebuild" {
+module "codebuild_build" {
   source             = "github.com/emmekappa/terraform-aws-codebuild"
   namespace          = "${var.namespace}"
   name               = "${var.name}"
@@ -34,26 +34,30 @@ module "codepipeline" {
   # Enable the pipeline creation
   enabled = "true"
 
-  # Elastic Beanstalk
-
   # Application repository on GitHub
   github_oauth_token = "${var.github_token}"
   repo_owner         = "${var.repo_owner}"
   repo_name          = "${var.repo_name}"
   branches           = "${var.branches}"
+
   # http://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref.html
   # http://docs.aws.amazon.com/codebuild/latest/userguide/build-spec-ref.html
   build_image = "${var.build_image}"
+
   build_compute_type = "${var.build_compute_type}"
+
   # These attributes are optional, used as ENV variables when building Docker images and pushing them to ECR
   # For more info:
   # http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html
   # https://www.terraform.io/docs/providers/aws/r/codebuild_project.html
   privileged_mode = "${var.privileged_mode}"
-  aws_region              = "${var.aws_region}"
-  aws_account_id          = "${var.aws_account_id}"
-  image_repo_name         = "${var.image_repo_name}"
-  codebuild_project_names = ["${module.codebuild.project_name}"]
-  codebuild_project_id    = "${module.codebuild.project_id}"
-  codebuild_role_arn      = "${module.codebuild.role_arn}"
+
+  aws_region                   = "${var.aws_region}"
+  aws_account_id               = "${var.aws_account_id}"
+  image_repo_name              = "${var.image_repo_name}"
+  codebuild_build_project_name = "${module.codebuild_build.project_name}"
+  codebuild_build_project_id   = "${module.codebuild_build.project_id}"
+  codebuild_role_arn           = "${module.codebuild_build.role_arn}"
+
+  codebuild_terraform_project_name = ""
 }
