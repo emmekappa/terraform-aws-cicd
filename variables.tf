@@ -114,3 +114,4 @@ variable "image_repo_name" {
 }
 
 variable "slack_webhook_url" {}
+variable "terraform_state_bucket" {}

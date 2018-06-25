@@ -102,6 +102,8 @@ data "aws_iam_policy_document" "s3" {
       "${aws_s3_bucket.default.arn}",
       "${aws_s3_bucket.default.arn}/*",
       "arn:aws:s3:::elasticbeanstalk*",
+      "arn:aws:s3:::${var.terraform_state_bucket}",
+      "arn:aws:s3:::${var.terraform_state_bucket}/*",
     ]
 
     effect = "Allow"

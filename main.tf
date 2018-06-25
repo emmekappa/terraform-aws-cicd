@@ -61,4 +61,5 @@ module "codepipeline" {
   codebuild_role_arn               = "${module.codebuild_build.role_arn}"
   codebuild_terraform_project_name = "${module.codebuild_build.terraform_project_name}"
   codebuild_terraform_project_id   = "${module.codebuild_build.terraform_project_id}"
+  terraform_state_bucket           = "${var.terraform_state_bucket}"
 }

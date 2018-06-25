@@ -126,3 +126,5 @@ variable "codebuild_terraform_project_name" {
 variable "codebuild_terraform_project_id" {}
 
 variable "codebuild_role_arn" {}
+
+variable "terraform_state_bucket" {}
