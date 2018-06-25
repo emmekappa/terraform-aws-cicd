@@ -96,6 +96,7 @@ data "aws_iam_policy_document" "s3" {
       "s3:GetObjectVersion",
       "s3:GetBucketVersioning",
       "s3:PutObject",
+      "s3:ListObjects",
     ]
 
     resources = [
@@ -107,6 +108,15 @@ data "aws_iam_policy_document" "s3" {
     ]
 
     effect = "Allow"
+  }
+
+  statement {
+    action = [
+      "s3:ListBucket",
+    ]
+
+    resources = ["*"]
+    effect    = "Allow"
   }
 }
 
