@@ -5,7 +5,7 @@ provider "aws" {
 data "aws_region" "default" {}
 data "aws_caller_identity" "default" {}
 
-module "codebuild_build" {
+module "codebuild_terraform" {
   source             = "codebuild"
   namespace          = "${var.namespace}"
   name               = "${var.name}"
@@ -23,9 +23,10 @@ module "codebuild_build" {
   github_token       = "${var.github_token}"
   repo_owner         = "${var.repo_owner}"
   repo_name          = "${var.repo_name}"
+  slack_webhook_url  = "${var.slack_webhook_url}"
 }
 
-module "codepipeline" {
+module "codepipeline_terraform" {
   source    = "codepipeline"
   namespace = "${var.namespace}"
   name      = "${var.name}"
@@ -52,10 +53,11 @@ module "codepipeline" {
   # https://www.terraform.io/docs/providers/aws/r/codebuild_project.html
   privileged_mode = "${var.privileged_mode}"
 
-  aws_region                   = "${var.aws_region}"
-  aws_account_id               = "${var.aws_account_id}"
-  image_repo_name              = "${var.image_repo_name}"
-  codebuild_build_project_name = "${module.codebuild_build.project_name}"
-  codebuild_build_project_id   = "${module.codebuild_build.project_id}"
-  codebuild_role_arn           = "${module.codebuild_build.role_arn}"
+  aws_region             = "${var.aws_region}"
+  aws_account_id         = "${var.aws_account_id}"
+  image_repo_name        = "${var.image_repo_name}"
+  codebuild_project_name = "${module.codebuild_terraform.project_name}"
+  codebuild_project_id   = "${module.codebuild_terraform.project_id}"
+  codebuild_role_arn     = "${module.codebuild_terraform.role_arn}"
+  terraform_state_bucket = "${var.terraform_state_bucket}"
 }

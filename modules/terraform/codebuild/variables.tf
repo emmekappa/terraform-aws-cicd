@@ -109,3 +109,5 @@ variable "enabled" {
   default     = "true"
   description = "Enable ``CodePipeline`` creation"
 }
+
+variable "slack_webhook_url" {}

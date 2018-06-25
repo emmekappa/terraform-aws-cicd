@@ -139,8 +139,7 @@ data "aws_iam_policy_document" "codebuild" {
     ]
 
     resources = [
-      "${var.codebuild_build_project_id}",
-      "${var.codebuild_terraform_project_id}",
+      "${var.codebuild_project_id}",
     ]
 
     effect = "Allow"
@@ -200,7 +199,7 @@ resource "aws_codepipeline" "source_build" {
       output_artifacts = ["terraform_plan"]
 
       configuration {
-        ProjectName = "${var.codebuild_terraform_project_name}"
+        ProjectName = "${var.codebuild_project_name}"
       }
     }
   }

@@ -36,13 +36,6 @@ resource "aws_iam_policy" "default" {
   policy = "${data.aws_iam_policy_document.permissions.json}"
 }
 
-resource "aws_iam_policy" "default_cache_bucket" {
-  count  = "${var.cache_enabled == "true" ? 1 : 0}"
-  name   = "${module.label.id}-cache-bucket"
-  path   = "/service-role/"
-  policy = "${data.aws_iam_policy_document.permissions_cache_bucket.json}"
-}
-
 data "aws_iam_policy_document" "permissions" {
   statement {
     sid = ""
@@ -68,18 +61,13 @@ resource "aws_iam_role_policy_attachment" "default" {
   role       = "${aws_iam_role.default.id}"
 }
 
-resource "aws_codebuild_project" "terraform" {
+resource "aws_codebuild_project" "default" {
   name         = "${module.label.id}"
   service_role = "${aws_iam_role.default.arn}"
 
   artifacts {
     type = "CODEPIPELINE"
-
-    #location = "${aws_s3_bucket.cache_bucket.bucket}"
   }
-
-  # The cache as a list with a map object inside.
-  #cache = ["${local.cache}"]
 
   environment {
     compute_type    = "${var.build_compute_type}"
@@ -100,9 +88,11 @@ resource "aws_codebuild_project" "terraform" {
       "${var.environment_variables}",
     ]
   }
+
   source {
     type      = "CODEPIPELINE"
     buildspec = "buildspec_terraform_plan.yml"
   }
+
   tags = "${module.label.tags}"
 }
