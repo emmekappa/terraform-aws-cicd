@@ -203,8 +203,9 @@ resource "aws_codebuild_project" "terraform" {
   service_role = "${aws_iam_role.default.arn}"
 
   artifacts {
-    type     = "S3"
-    location = "${aws_s3_bucket.cache_bucket.bucket}"
+    type = "CODEPIPELINE"
+
+    #location = "${aws_s3_bucket.cache_bucket.bucket}"
   }
 
   # The cache as a list with a map object inside.
