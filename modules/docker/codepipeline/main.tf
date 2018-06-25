@@ -103,8 +103,6 @@ data "aws_iam_policy_document" "s3" {
       "${aws_s3_bucket.default.arn}",
       "${aws_s3_bucket.default.arn}/*",
       "arn:aws:s3:::elasticbeanstalk*",
-      "arn:aws:s3:::${var.terraform_state_bucket}",
-      "arn:aws:s3:::${var.terraform_state_bucket}/*",
     ]
 
     effect = "Allow"
@@ -140,7 +138,6 @@ data "aws_iam_policy_document" "codebuild" {
 
     resources = [
       "${var.codebuild_build_project_id}",
-      "${var.codebuild_terraform_project_id}",
     ]
 
     effect = "Allow"
@@ -189,7 +186,7 @@ resource "aws_codepipeline" "source_build" {
   stage {
     name = "Build"
 
-    /*action {
+    action {
       name     = "Build"
       category = "Build"
       owner    = "AWS"
@@ -201,21 +198,6 @@ resource "aws_codepipeline" "source_build" {
 
       configuration {
         ProjectName = "${var.codebuild_build_project_name}"
-      }
-    }*/
-
-    action {
-      name     = "Terraform-planning"
-      category = "Build"
-      owner    = "AWS"
-      provider = "CodeBuild"
-      version  = "1"
-
-      input_artifacts  = ["code"]
-      output_artifacts = ["terraform_plan"]
-
-      configuration {
-        ProjectName = "${var.codebuild_terraform_project_name}"
       }
     }
   }

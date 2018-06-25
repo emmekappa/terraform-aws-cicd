@@ -118,13 +118,4 @@ variable "codebuild_build_project_name" {
 
 variable "codebuild_build_project_id" {}
 
-variable "codebuild_terraform_project_name" {
-  type        = "string"
-  description = "CodeBuild project to run Terraform"
-}
-
-variable "codebuild_terraform_project_id" {}
-
 variable "codebuild_role_arn" {}
-
-variable "terraform_state_bucket" {}
