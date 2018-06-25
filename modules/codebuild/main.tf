@@ -237,11 +237,10 @@ resource "aws_codebuild_project" "terraform" {
     ]
   }
 
-  /*source {
-    type            = "GITHUB"
-    location        = "https://github.com/${var.repo_owner}/${var.repo_name}.git"
-    git_clone_depth = 1
-  }*/
+  source {
+    type      = "CODEPIPELINE"
+    buildspec = "buildspec_terraform_plan.yml"
+  }
 
   tags = "${module.label.tags}"
 }
