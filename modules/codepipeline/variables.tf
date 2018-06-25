@@ -113,7 +113,12 @@ variable "image_repo_name" {
 
 variable "codebuild_build_project_name" {
   type        = "string"
-  description = "CodeBuild project name to run"
+  description = "CodeBuild project that build the sources"
+}
+
+variable "codebuild_terraform_project_name" {
+  type        = "string"
+  description = "CodeBuild project to run Terraform"
 }
 
 variable "codebuild_build_project_id" {}

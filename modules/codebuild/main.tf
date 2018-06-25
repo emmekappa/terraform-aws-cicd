@@ -198,6 +198,58 @@ resource "aws_codebuild_project" "default" {
   tags = "${module.label.tags}"
 }
 
+resource "aws_codebuild_project" "terraform" {
+  name         = "${module.label.id}"
+  service_role = "${aws_iam_role.default.arn}"
+
+  artifacts {
+    type     = "S3"
+    location = "${aws_s3_bucket.cache_bucket.bucket}"
+  }
+
+  # The cache as a list with a map object inside.
+  cache = ["${local.cache}"]
+
+  environment {
+    compute_type    = "${var.build_compute_type}"
+    image           = "${var.build_image}"
+    type            = "LINUX_CONTAINER"
+    privileged_mode = "${var.privileged_mode}"
+
+    environment_variable = [
+      {
+        "name"  = "AWS_REGION"
+        "value" = "${signum(length(var.aws_region)) == 1 ? var.aws_region : data.aws_region.default.name}"
+      },
+      {
+        "name"  = "AWS_ACCOUNT_ID"
+        "value" = "${signum(length(var.aws_account_id)) == 1 ? var.aws_account_id : data.aws_caller_identity.default.account_id}"
+      },
+      {
+        "name"  = "SLACK_TOKEN"
+        "value" = "${signum(length(var.slack_token)) == 1 ? var.slack_token : "UNSET"}"
+      },
+      {
+        "name"  = "SLACK_CHANNEL"
+        "value" = "${signum(length(var.slack_channel)) == 1 ? var.slack_channel : "UNSET"}"
+      },
+      {
+        "name"  = "GITHUB_TOKEN"
+        "value" = "${signum(length(var.github_token)) == 1 ? var.github_token : "UNSET"}"
+      },
+      "${var.environment_variables}",
+    ]
+  }
+
+  /*source {
+    type            = "GITHUB"
+    location        = "https://github.com/${var.repo_owner}/${var.repo_name}.git"
+    git_clone_depth = 1
+  }*/
+
+  tags = "${module.label.tags}"
+}
+
 resource "aws_codebuild_webhook" "default" {
   project_name = "${aws_codebuild_project.default.name}"
   depends_on   = ["aws_codebuild_project.default"]

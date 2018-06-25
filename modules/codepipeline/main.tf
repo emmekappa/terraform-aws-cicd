@@ -187,5 +187,20 @@ resource "aws_codepipeline" "source_build" {
         ProjectName = "${var.codebuild_build_project_name}"
       }
     }
+
+    action {
+      name     = "Terraform planning"
+      category = "Build"
+      owner    = "AWS"
+      provider = "CodeBuild"
+      version  = "1"
+
+      input_artifacts  = ["code"]
+      output_artifacts = ["terraform_plan"]
+
+      configuration {
+        ProjectName = "${var.codebuild_terraform_project_name}"
+      }
+    }
   }
 }
