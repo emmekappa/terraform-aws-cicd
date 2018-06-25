@@ -189,7 +189,7 @@ resource "aws_codepipeline" "source_build" {
     }
 
     action {
-      name     = "Terraform planning"
+      name     = "Terraform-planning"
       category = "Build"
       owner    = "AWS"
       provider = "CodeBuild"
