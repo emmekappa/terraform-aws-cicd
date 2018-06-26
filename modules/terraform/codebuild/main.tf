@@ -51,6 +51,8 @@ data "aws_iam_policy_document" "permissions" {
       "codepipeline:*",
       "apigateway:*",
       "lambda:*",
+      "sns:*",
+      "sqs:*",
     ]
 
     effect = "Allow"
