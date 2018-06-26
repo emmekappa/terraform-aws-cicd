@@ -5,9 +5,6 @@ addons:
       - make
       - curl
 
-install:
-  - make init
-
 script:
   - pushd modules/docker
   - make init 
