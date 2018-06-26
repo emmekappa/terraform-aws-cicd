@@ -111,12 +111,16 @@ variable "image_repo_name" {
   description = "ECR repository name to store the Docker image built by this module. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
 }
 
-variable "codebuild_project_name" {
+variable "codebuild_plan_project_name" {
   type        = "string"
   description = "CodeBuild project that build the sources"
 }
 
-variable "codebuild_project_id" {}
+variable "codebuild_plan_project_id" {}
+
+variable "codebuild_apply_project_name" {}
+
+variable "codebuild_apply_project_id" {}
 
 variable "codebuild_role_arn" {}
 

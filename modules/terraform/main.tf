@@ -54,11 +54,13 @@ module "codepipeline_terraform" {
   # https://www.terraform.io/docs/providers/aws/r/codebuild_project.html
   privileged_mode = "${var.privileged_mode}"
 
-  aws_region             = "${var.aws_region}"
-  aws_account_id         = "${var.aws_account_id}"
-  image_repo_name        = "${var.image_repo_name}"
-  codebuild_project_name = "${module.codebuild_terraform.project_name}"
-  codebuild_project_id   = "${module.codebuild_terraform.project_id}"
-  codebuild_role_arn     = "${module.codebuild_terraform.role_arn}"
-  terraform_state_bucket = "${var.terraform_state_bucket}"
+  aws_region                   = "${var.aws_region}"
+  aws_account_id               = "${var.aws_account_id}"
+  image_repo_name              = "${var.image_repo_name}"
+  codebuild_plan_project_name  = "${module.codebuild_terraform.plan_project_name}"
+  codebuild_plan_project_id    = "${module.codebuild_terraform.plan_project_id}"
+  codebuild_apply_project_name = "${module.codebuild_terraform.apply_project_name}"
+  codebuild_apply_project_id   = "${module.codebuild_terraform.apply_project_id}"
+  codebuild_role_arn           = "${module.codebuild_terraform.role_arn}"
+  terraform_state_bucket       = "${var.terraform_state_bucket}"
 }

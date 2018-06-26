@@ -64,8 +64,8 @@ resource "aws_iam_role_policy_attachment" "default" {
   role       = "${aws_iam_role.default.id}"
 }
 
-resource "aws_codebuild_project" "default" {
-  name         = "${module.label.id}"
+resource "aws_codebuild_project" "plan" {
+  name         = "${module.label.id}-plan"
   service_role = "${aws_iam_role.default.arn}"
 
   artifacts {
@@ -100,6 +100,47 @@ resource "aws_codebuild_project" "default" {
   source {
     type      = "CODEPIPELINE"
     buildspec = "buildspec_terraform_plan.yml"
+  }
+
+  tags = "${module.label.tags}"
+}
+
+resource "aws_codebuild_project" "apply" {
+  name         = "${module.label.id}-apply"
+  service_role = "${aws_iam_role.default.arn}"
+
+  artifacts {
+    type = "CODEPIPELINE"
+  }
+
+  environment {
+    compute_type    = "${var.build_compute_type}"
+    image           = "${var.build_image}"
+    type            = "LINUX_CONTAINER"
+    privileged_mode = "${var.privileged_mode}"
+
+    environment_variable = [
+      {
+        "name" = "SLACK_CLI_TOKEN"
+
+        "value" = "${signum(length(var.slack_cli_token)) == 1 ? var.slack_cli_token : "UNSET"}"
+      },
+      {
+        "name" = "SLACK_CHANNEL"
+
+        "value" = "${signum(length(var.slack_channel)) == 1 ? var.slack_channel : "UNSET"}"
+      },
+      {
+        "name"  = "GITHUB_TOKEN"
+        "value" = "${signum(length(var.github_token)) == 1 ? var.github_token : "UNSET"}"
+      },
+      "${var.environment_variables}",
+    ]
+  }
+
+  source {
+    type      = "CODEPIPELINE"
+    buildspec = "buildspec_terraform_apply.yml"
   }
 
   tags = "${module.label.tags}"

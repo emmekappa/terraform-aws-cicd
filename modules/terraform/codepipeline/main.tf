@@ -135,7 +135,8 @@ data "aws_iam_policy_document" "codebuild" {
     ]
 
     resources = [
-      "${var.codebuild_project_id}",
+      "${var.codebuild_apply_project_id}",
+      "${var.codebuild_plan_project_id}",
     ]
 
     effect = "Allow"
@@ -185,7 +186,7 @@ resource "aws_codepipeline" "source_build" {
     name = "Build"
 
     action {
-      name     = "Planning"
+      name     = "Plan"
       category = "Build"
       owner    = "AWS"
       provider = "CodeBuild"
@@ -195,7 +196,38 @@ resource "aws_codepipeline" "source_build" {
       output_artifacts = ["terraform_plan"]
 
       configuration {
-        ProjectName = "${var.codebuild_project_name}"
+        ProjectName = "${var.codebuild_plan_project_name}"
+      }
+    }
+  }
+
+  stage {
+    name = "Approval"
+
+    action {
+      name     = "Approval"
+      category = "Approval"
+      owner    = "AWS"
+      provider = "Manual"
+      version  = "1"
+    }
+  }
+
+  stage {
+    name = "Apply"
+
+    action {
+      name     = "Apply"
+      category = "Build"
+      owner    = "AWS"
+      provider = "CodeBuild"
+      version  = "1"
+
+      input_artifacts  = ["terraform_plan"]
+      output_artifacts = [""]
+
+      configuration {
+        ProjectName = "${var.codebuild_apply_project_name}"
       }
     }
   }
