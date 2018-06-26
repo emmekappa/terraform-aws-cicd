@@ -10,7 +10,9 @@ install:
 
 script:
   - pushd modules/docker
+  - make init 
   - make lint
   - popd
   - pushd modules/terraform
+  - make init
   - make lint
