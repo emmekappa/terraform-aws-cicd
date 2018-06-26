@@ -24,6 +24,7 @@ module "codebuild_terraform" {
   repo_owner         = "${var.repo_owner}"
   repo_name          = "${var.repo_name}"
   slack_cli_token    = "${var.slack_cli_token}"
+  slack_channel      = "${var.slack_channel}"
 }
 
 module "codepipeline_terraform" {

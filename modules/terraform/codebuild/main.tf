@@ -85,6 +85,11 @@ resource "aws_codebuild_project" "default" {
         "value" = "${signum(length(var.slack_cli_token)) == 1 ? var.slack_cli_token : "UNSET"}"
       },
       {
+        "name" = "SLACK_CHANNEL"
+
+        "value" = "${signum(length(var.slack_channel)) == 1 ? var.slack_channel : "UNSET"}"
+      },
+      {
         "name"  = "GITHUB_TOKEN"
         "value" = "${signum(length(var.github_token)) == 1 ? var.github_token : "UNSET"}"
       },
