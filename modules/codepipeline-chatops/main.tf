@@ -22,6 +22,15 @@ resource "aws_iam_role" "lambda" {
       },
       "Effect": "Allow",
       "Sid": ""
+    },
+    {
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": "arn:aws:logs:*:*:*",
+      "Effect": "Allow"
     }
   ]
 }
