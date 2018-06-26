@@ -116,3 +116,7 @@ variable "image_repo_name" {
 variable "slack_cli_token" {}
 variable "slack_channel" {}
 variable "terraform_state_bucket" {}
+
+variable "approval_lambda_arn" {
+  default = ""
+}

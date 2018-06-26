@@ -13,23 +13,6 @@ variable "name" {
   description = "Solution name, e.g. 'app' or 'jenkins'"
 }
 
-variable "enabled" {
-  default     = "true"
-  description = "Enable ``CodePipeline`` creation"
-}
-
-variable "app" {
-  type        = "string"
-  default     = ""
-  description = "Elastic Beanstalk application name. If not provided or set to empty string, the ``Deploy`` stage of the pipeline will not be created"
-}
-
-variable "env" {
-  type        = "string"
-  default     = ""
-  description = "Elastic Beanstalk environment name. If not provided or set to empty string, the ``Deploy`` stage of the pipeline will not be created"
-}
-
 variable "github_oauth_token" {
   description = "GitHub Oauth Token with permissions to access private repositories"
 }
@@ -125,3 +108,7 @@ variable "codebuild_apply_project_id" {}
 variable "codebuild_role_arn" {}
 
 variable "terraform_state_bucket" {}
+
+variable "approval_lambda_arn" {
+  default = ""
+}

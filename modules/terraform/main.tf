@@ -33,9 +33,6 @@ module "codepipeline_terraform" {
   name      = "${var.name}"
   stage     = "${var.stage}"
 
-  # Enable the pipeline creation
-  enabled = "true"
-
   # Application repository on GitHub
   github_oauth_token = "${var.github_token}"
   repo_owner         = "${var.repo_owner}"
@@ -63,4 +60,5 @@ module "codepipeline_terraform" {
   codebuild_apply_project_id   = "${module.codebuild_terraform.apply_project_id}"
   codebuild_role_arn           = "${module.codebuild_terraform.role_arn}"
   terraform_state_bucket       = "${var.terraform_state_bucket}"
+  approval_lambda_arn          = "${var.approval_lambda_arn}"
 }
