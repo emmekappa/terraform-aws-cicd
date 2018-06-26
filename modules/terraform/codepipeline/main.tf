@@ -183,7 +183,7 @@ resource "aws_codepipeline" "source_build" {
   }
 
   stage {
-    name = "Build"
+    name = "Plan"
 
     action {
       name     = "Plan"
