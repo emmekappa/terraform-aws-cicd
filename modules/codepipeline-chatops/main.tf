@@ -116,7 +116,7 @@ resource "aws_api_gateway_deployment" "default" {
 resource "aws_lambda_permission" "apigw" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = "${aws_lambda_function.request_approval.arn}"
+  function_name = "${aws_lambda_function.handle_approval.arn}"
   principal     = "apigateway.amazonaws.com"
 
   # The /*/* portion grants access from any method on any resource
