@@ -1,9 +1,5 @@
 data "aws_caller_identity" "default" {}
 
-data "aws_region" "default" {
-  current = true
-}
-
 # Define composite variables for resources
 module "label" {
   source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.3.1"
