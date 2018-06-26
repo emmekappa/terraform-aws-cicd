@@ -113,5 +113,5 @@ variable "image_repo_name" {
   description = "ECR repository name to store the Docker image built by this module. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
 }
 
-variable "slack_webhook_url" {}
+variable "slack_cli_token" {}
 variable "terraform_state_bucket" {}

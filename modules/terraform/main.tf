@@ -23,7 +23,7 @@ module "codebuild_terraform" {
   github_token       = "${var.github_token}"
   repo_owner         = "${var.repo_owner}"
   repo_name          = "${var.repo_name}"
-  slack_webhook_url  = "${var.slack_webhook_url}"
+  slack_cli_token    = "${var.slack_cli_token}"
 }
 
 module "codepipeline_terraform" {

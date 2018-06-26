@@ -80,9 +80,9 @@ resource "aws_codebuild_project" "default" {
 
     environment_variable = [
       {
-        "name" = "SLACK_WEBHOOK_URL"
+        "name" = "SLACK_CLI_TOKEN"
 
-        "value" = "${signum(length(var.slack_webhook_url)) == 1 ? var.slack_webhook_url : "UNSET"}"
+        "value" = "${signum(length(var.slack_cli_token)) == 1 ? var.slack_cli_token : "UNSET"}"
       },
       {
         "name"  = "GITHUB_TOKEN"
