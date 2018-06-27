@@ -84,6 +84,10 @@ resource "aws_codebuild_project" "plan" {
 
     environment_variable = [
       {
+        name  = "TF_IN_AUTOMATION"
+        value = "true"
+      },
+      {
         "name" = "SLACK_CLI_TOKEN"
 
         "value" = "${signum(length(var.slack_cli_token)) == 1 ? var.slack_cli_token : "UNSET"}"
@@ -124,6 +128,10 @@ resource "aws_codebuild_project" "apply" {
     privileged_mode = "${var.privileged_mode}"
 
     environment_variable = [
+      {
+        name  = "TF_IN_AUTOMATION"
+        value = "true"
+      },
       {
         "name" = "SLACK_CLI_TOKEN"
 
