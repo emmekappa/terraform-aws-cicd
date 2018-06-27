@@ -28,10 +28,9 @@ resource "aws_iam_role" "lambda" {
 EOF
 }
 
-resource "aws_iam_policy" "lambda_logging" {
-  name        = "lambda_logging"
-  path        = "/"
-  description = "IAM policy for logging from a lambda"
+resource "aws_iam_role_policy" "lambda_logging" {
+  name = "lambda_logging"
+  role = "${aws_iam_role.lambda.name}"
 
   policy = <<EOF
 {
@@ -51,9 +50,24 @@ resource "aws_iam_policy" "lambda_logging" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "lambda_logs" {
-  role       = "${aws_iam_role.lambda.name}"
-  policy_arn = "${aws_iam_policy.lambda_logging.arn}"
+resource "aws_iam_role_policy" "put_approval" {
+  name = "codepipeline"
+  role = "${aws_iam_role.lambda.name}"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "codepipeline:PutApprovalResult"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    }
+  ]
+}
+EOF
 }
 
 resource "aws_lambda_function" "request_approval" {
