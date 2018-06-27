@@ -226,7 +226,7 @@ resource "aws_codepipeline" "source_build" {
     name = "Approval"
 
     action {
-      name     = "Approval"
+      name     = "ApprovalOrDeny"
       category = "Approval"
       owner    = "AWS"
       provider = "Manual"
