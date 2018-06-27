@@ -1,3 +1,5 @@
+provider "archive" {}
+
 module "label" {
   source     = "git::https://github.com/cloudposse/terraform-terraform-label.git?ref=tags/0.1.0"
   namespace  = "${var.namespace}"
@@ -70,12 +72,18 @@ resource "aws_iam_role_policy" "put_approval" {
 EOF
 }
 
+data "archive_file" "request_approval_on_slack_zip" {
+  type        = "zip"
+  source_file = "${path.module}/request_approval_on_slack.py"
+  output_path = "request_approval_on_slack.zip"
+}
+
 resource "aws_lambda_function" "request_approval" {
-  filename         = "${path.module}/request_approval_on_slack.zip"
+  filename         = "${data.archive_file.request_approval_on_slack_zip.output_path}"
   function_name    = "${module.label.id}-request-approval"
   role             = "${aws_iam_role.lambda.arn}"
   handler          = "request_approval_on_slack.lambda_handler"
-  source_code_hash = "${base64sha256(file("${path.module}/request_approval_on_slack.zip"))}"
+  source_code_hash = "${data.archive_file.request_approval_on_slack_zip.output_base64sha256}"
   runtime          = "python3.6"
 
   environment {
@@ -86,12 +94,18 @@ resource "aws_lambda_function" "request_approval" {
   }
 }
 
+data "archive_file" "handle_approval_zip" {
+  type        = "zip"
+  source_file = "${path.module}/handle_approval.py"
+  output_path = "handle_approval.zip"
+}
+
 resource "aws_lambda_function" "handle_approval" {
-  filename         = "${path.module}/handle_approval.zip"
+  filename         = "${data.archive_file.handle_approval_zip.output_path}"
   function_name    = "${module.label.id}-handle-approval"
   role             = "${aws_iam_role.lambda.arn}"
   handler          = "handle_approval.lambda_handler"
-  source_code_hash = "${base64sha256(file("${path.module}/handle_approval.zip"))}"
+  source_code_hash = "${data.archive_file.handle_approval_zip.output_base64sha256}"
   runtime          = "python3.6"
 
   environment {
