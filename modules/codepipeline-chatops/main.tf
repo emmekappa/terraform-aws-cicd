@@ -60,9 +60,9 @@ resource "aws_lambda_function" "request_approval" {
   filename         = "${path.module}/request_approval_on_slack.zip"
   function_name    = "${module.label.id}-request-approval"
   role             = "${aws_iam_role.lambda.arn}"
-  handler          = "lambda_function.lambda_handler"
+  handler          = "request_approval_on_slack.lambda_handler"
   source_code_hash = "${base64sha256(file("${path.module}/request_approval_on_slack.zip"))}"
-  runtime          = "python2.7"
+  runtime          = "python3.6"
 
   environment {
     variables = {
@@ -76,9 +76,9 @@ resource "aws_lambda_function" "handle_approval" {
   filename         = "${path.module}/handle_approval.zip"
   function_name    = "${module.label.id}-handle-approval"
   role             = "${aws_iam_role.lambda.arn}"
-  handler          = "lambda_function.lambda_handler"
+  handler          = "handle_approval.lambda_handler"
   source_code_hash = "${base64sha256(file("${path.module}/handle_approval.zip"))}"
-  runtime          = "python2.7"
+  runtime          = "python3.6"
 
   environment {
     variables = {
