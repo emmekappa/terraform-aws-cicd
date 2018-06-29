@@ -21,18 +21,18 @@ logger.setLevel(logging.INFO)
 def lambda_handler(event, context):
     print("Received event: " + json.dumps(event, indent=2))
     message = event["Records"][0]["Sns"]["Message"]
-    
-    data = json.loads(message) 
+
+    data = json.loads(message)
     token = data["approval"]["token"]
     codepipeline_name = data["approval"]["pipelineName"]
-    
+
     slack_message = {
         "channel": SLACK_CHANNEL,
-        "text": "Would you like to promote the build to production?",
+        "text": f"Would you like to approve the action on {codepipeline_name}?",
         "attachments": [
             {
-                "text": "Yes to deploy your build to production",
-                "fallback": "You are unable to promote a build",
+                "text": "Yes to approve",
+                "fallback": "You are unable to approve a build",
                 "callback_id": "wopr_game",
                 "color": "#3AA3E3",
                 "attachment_type": "default",
@@ -45,7 +45,7 @@ def lambda_handler(event, context):
                         "value": json.dumps({"approve": True, "codePipelineToken": token, "codePipelineName": codepipeline_name}),
                         "confirm": {
                             "title": "Are you sure?",
-                            "text": "This will deploy the build to production",
+                            "text": "This may cause destructive operations",
                             "ok_text": "Yes",
                             "dismiss_text": "No"
                         }
@@ -55,7 +55,7 @@ def lambda_handler(event, context):
                         "text": "No",
                         "type": "button",
                         "value": json.dumps({"approve": False, "codePipelineToken": token, "codePipelineName": codepipeline_name})
-                    }  
+                    }
                 ]
             }
         ]
@@ -65,5 +65,5 @@ def lambda_handler(event, context):
 
     response = urlopen(req)
     response.read()
-    
+
     return None
