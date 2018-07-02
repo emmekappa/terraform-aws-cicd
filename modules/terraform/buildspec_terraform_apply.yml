@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - apt-get update -y
+      - apt-get install -y curl jq unzip wget
+      - curl -o terraform.zip https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip
+      - unzip -o terraform.zip -d /usr/local/bin/
+      - chmod +x /usr/local/bin/terraform
+      - wget https://github.com/gruntwork-io/terragrunt/releases/download/v0.14.11/terragrunt_linux_amd64
+      - mv terragrunt_linux_amd64 /usr/local/bin/terragrunt
+      - chmod +x /usr/local/bin/terragrunt
+      - pip install slack-webhook-cli
+  build:
+    commands:
+      - terraform_environment=$(bash get_terraform_environment.sh)
+      - echo "Apply for $terraform_environment..."
+      - echo "Apply shared environment..."
+      - cd terraform/shared
+      - terraform apply -no-color -input=false plan.out
+      - slack -c $SLACK_CHANNEL "[$CODEBUILD_INITIATOR] Apply was succesful on shared environment"
+      - cd ../..
+      - echo "Apply $terraform_environment environment..."
+      - cd terraform/$terraform_environment
+      - terraform apply -no-color -input=false plan.out
+      - slack -c $SLACK_CHANNEL "[$CODEBUILD_INITIATOR] Apply was succesful on $terraform_environment environment"
+artifacts:
+  files:
+    - '**/*'
