@@ -3,7 +3,6 @@ provider "aws" {
 }
 
 data "aws_region" "default" {}
-data "aws_caller_identity" "default" {}
 
 module "codebuild_build" {
   source             = "codebuild"
