@@ -13,6 +13,7 @@ script:
   - pushd modules/terraform
   - make init
   - make lint
+  - popd
   - pushd modules/codepipeline-chatops
   - make init
   - make lint
