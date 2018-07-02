@@ -7,9 +7,12 @@ addons:
 
 script:
   - pushd modules/docker
-  - make init 
+  - make init
   - make lint
   - popd
   - pushd modules/terraform
+  - make init
+  - make lint
+  - pushd modules/codepipeline-chatops
   - make init
   - make lint
