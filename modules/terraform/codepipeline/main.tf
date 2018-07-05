@@ -167,9 +167,6 @@ resource "aws_iam_role_policy_attachment" "codebuild_s3" {
   policy_arn = "${aws_iam_policy.s3.arn}"
 }
 
-# Supported use case:
-# GitHub -> ECR (Docker image)
-
 resource "aws_codepipeline" "source_build" {
   count    = "${length(var.branches)}"
   name     = "${module.label.id}-${element(var.branches, count.index)}"

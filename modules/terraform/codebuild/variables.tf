@@ -70,12 +70,6 @@ variable "aws_account_id" {
   description = "(Optional) AWS Account ID. Used as CodeBuild ENV variable when building Docker images. For more info: http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html"
 }
 
-variable "image_repo_name" {
-  type        = "string"
-  default     = "UNSET"
-  description = "(Optional) ECR repository name to store the Docker image built by this module. Used as CodeBuild ENV variable when building Docker images. For more info: http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html"
-}
-
 variable "repo_owner" {
   description = "GitHub Organization or Person name"
 }
