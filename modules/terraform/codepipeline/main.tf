@@ -142,12 +142,12 @@ data "aws_iam_policy_document" "codebuild" {
 }
 
 resource "aws_sns_topic" "approval_sns" {
-  count = "${length(var.approval_lambda_arn) == 0 ? 0 : 1}"
+  count = "${var.approval_lambda_arn != "" ? 1 : 0}"
   name  = "${module.label.id}-approval-sns"
 }
 
 resource "aws_sns_topic_subscription" "approval_sns_subscription" {
-  count     = "${length(var.approval_lambda_arn) == 0 ? 0 : 1}"
+  count     = "${var.approval_lambda_arn != "" ? 1 : 0}"
   topic_arn = "${aws_sns_topic.approval_sns.arn}"
   protocol  = "lambda"
   endpoint  = "${var.approval_lambda_arn}"
