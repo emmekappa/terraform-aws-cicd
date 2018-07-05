@@ -142,8 +142,7 @@ data "aws_iam_policy_document" "codebuild" {
 }
 
 resource "aws_sns_topic" "approval_sns" {
-  count = "${var.approval_lambda_arn != "" ? 1 : 0}"
-  name  = "${module.label.id}-approval-sns"
+  name = "${module.label.id}-approval-sns"
 }
 
 resource "aws_sns_topic_subscription" "approval_sns_subscription" {
