@@ -153,7 +153,7 @@ resource "aws_sns_topic_subscription" "approval_sns_subscription" {
 }
 
 resource "aws_lambda_permission" "approval_lambda_sns_permission" {
-  count         = "${length(var.approval_lambda_arn) == 0 ? 0 : 1}"
+  count         = "${var.approval_lambda_arn != "" ? 1 : 0}"
   statement_id  = "AllowExecutionFromSNS"
   action        = "lambda:InvokeFunction"
   function_name = "${var.approval_lambda_arn}"
