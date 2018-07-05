@@ -53,6 +53,7 @@ data "aws_iam_policy_document" "permissions" {
       "lambda:*",
       "sns:*",
       "sqs:*",
+      "application-autoscaling:*",
     ]
 
     effect = "Allow"
