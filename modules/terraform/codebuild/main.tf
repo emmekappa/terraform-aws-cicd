@@ -54,6 +54,8 @@ data "aws_iam_policy_document" "permissions" {
       "sns:*",
       "sqs:*",
       "application-autoscaling:*",
+      "cloudwatch:*",
+      "events:*",
     ]
 
     effect = "Allow"
