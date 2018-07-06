@@ -37,3 +37,11 @@ variable "slack_webhook_url" {
 variable "slack_channel" {}
 
 variable "slack_verification_token" {}
+
+variable "enable_handle_approval" {
+  default = "true"
+}
+
+variable "enable_request_approval" {
+  default = "true"
+}
