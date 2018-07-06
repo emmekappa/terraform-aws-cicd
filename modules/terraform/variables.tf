@@ -107,7 +107,10 @@ variable "aws_account_id" {
   description = "AWS Account ID. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
 }
 
-variable "slack_webhook_url" {}
+variable "slack_token" {
+  default = ""
+}
+
 variable "slack_channel" {}
 variable "terraform_state_bucket" {}
 
