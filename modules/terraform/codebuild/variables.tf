@@ -104,6 +104,10 @@ variable "enabled" {
   description = "Enable ``CodePipeline`` creation"
 }
 
-variable "slack_webhook_url" {}
+variable "slack_token" {
+  default = ""
+}
 
-variable "slack_channel" {}
+variable "slack_channel" {
+  default = ""
+}

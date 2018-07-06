@@ -11,7 +11,8 @@ phases:
       - wget https://github.com/gruntwork-io/terragrunt/releases/download/v0.14.11/terragrunt_linux_amd64
       - mv terragrunt_linux_amd64 /usr/local/bin/terragrunt
       - chmod +x /usr/local/bin/terragrunt
-      - pip install slack-webhook-cli
+      - curl -o /usr/local/bin/slack https://raw.githubusercontent.com/rockymadden/slack-cli/master/src/slack
+      - chmod +x /usr/local/bin/slack
   build:
     commands:
       - terraform_environment=$(bash get_terraform_environment.sh)
@@ -21,14 +22,14 @@ phases:
       - terragrunt init -input=false
       - terragrunt plan -input=false -no-color -out=plan.out
       - terraform show -no-color plan.out > human_output.txt
-      - slack -c $SLACK_CHANNEL -t "[$CODEBUILD_INITIATOR] Shared infrastructure planning" -a - < human_output.txt 
+      - slack file upload human_output.txt $SLACK_CHANNEL --title "[$CODEBUILD_INITIATOR] Shared infrastructure planning"
       - cd ../..
       - echo "Planning $terraform_environment environment..."
       - cd terraform/$terraform_environment
       - terragrunt init -input=false
       - terragrunt plan -input=false -no-color -out=plan.out
       - terraform show -no-color plan.out > human_output.txt
-      - slack -c $SLACK_CHANNEL -t "[$CODEBUILD_INITIATOR] $terraform_environment infrastructure planning" -a - < human_output.txt 
+      - slack file upload human_output.txt $SLACK_CHANNEL --title "[$CODEBUILD_INITIATOR] $terraform_environment infrastructure planning"
       - cd ../..
 artifacts:
   files:

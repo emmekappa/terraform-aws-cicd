@@ -91,8 +91,8 @@ resource "aws_codebuild_project" "plan" {
         value = "true"
       },
       {
-        "name"  = "SLACK_WEBHOOK_URL"
-        "value" = "${signum(length(var.slack_webhook_url)) == 1 ? var.slack_webhook_url : "UNSET"}"
+        "name"  = "SLACK_CLI_TOKEN"
+        "value" = "${signum(length(var.slack_token)) == 1 ? var.slack_token : "UNSET"}"
       },
       {
         "name" = "SLACK_CHANNEL"
@@ -135,8 +135,8 @@ resource "aws_codebuild_project" "apply" {
         value = "true"
       },
       {
-        "name"  = "SLACK_WEBHOOK_URL"
-        "value" = "${signum(length(var.slack_webhook_url)) == 1 ? var.slack_webhook_url : "UNSET"}"
+        "name"  = "SLACK_CLI_TOKEN"
+        "value" = "${signum(length(var.slack_token)) == 1 ? var.slack_token : "UNSET"}"
       },
       {
         "name" = "SLACK_CHANNEL"
