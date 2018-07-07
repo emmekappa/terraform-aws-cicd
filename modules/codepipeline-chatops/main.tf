@@ -77,7 +77,7 @@ EOF
 data "archive_file" "request_approval_on_slack_zip" {
   type        = "zip"
   source_file = "${path.module}/request_approval_on_slack.py"
-  output_path = "request_approval_on_slack.zip"
+  output_path = "artifacts/request_approval_on_slack.zip"
 }
 
 resource "aws_lambda_function" "request_approval" {
@@ -100,7 +100,7 @@ resource "aws_lambda_function" "request_approval" {
 data "archive_file" "handle_approval_zip" {
   type        = "zip"
   source_file = "${path.module}/handle_approval.py"
-  output_path = "handle_approval.zip"
+  output_path = "artifacts/handle_approval.zip"
 }
 
 resource "aws_lambda_function" "handle_approval" {
