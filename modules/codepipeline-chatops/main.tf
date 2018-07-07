@@ -1,4 +1,6 @@
-provider "archive" {}
+provider "archive" {
+  version = "~> 1.0"
+}
 
 module "label" {
   source     = "git::https://github.com/cloudposse/terraform-terraform-label.git?ref=tags/0.1.0"
