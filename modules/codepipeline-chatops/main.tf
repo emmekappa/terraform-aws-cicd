@@ -81,7 +81,6 @@ data "archive_file" "request_approval_on_slack_zip" {
 }
 
 resource "aws_lambda_function" "request_approval" {
-  count            = "${var.enable_request_approval == "true" ? 1 : 0}"
   filename         = "${data.archive_file.request_approval_on_slack_zip.output_path}"
   function_name    = "${module.label.id}-request-approval"
   role             = "${aws_iam_role.lambda.arn}"
@@ -97,6 +96,24 @@ resource "aws_lambda_function" "request_approval" {
   }
 }
 
+resource "aws_sns_topic" "approval_sns" {
+  name = "${module.label.id}-approval-sns"
+}
+
+resource "aws_sns_topic_subscription" "approval_sns_subscription" {
+  topic_arn = "${aws_sns_topic.approval_sns.arn}"
+  protocol  = "lambda"
+  endpoint  = "${aws_lambda_function.request_approval.arn}"
+}
+
+resource "aws_lambda_permission" "approval_lambda_sns_permission" {
+  statement_id  = "AllowExecutionFromSNS"
+  action        = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.request_approval.arn}"
+  principal     = "sns.amazonaws.com"
+  source_arn    = "${aws_sns_topic.approval_sns.arn}"
+}
+
 data "archive_file" "handle_approval_zip" {
   type        = "zip"
   source_file = "${path.module}/handle_approval.py"
@@ -104,7 +121,6 @@ data "archive_file" "handle_approval_zip" {
 }
 
 resource "aws_lambda_function" "handle_approval" {
-  count            = "${var.enable_handle_approval == "true" ? 1 : 0}"
   filename         = "${data.archive_file.handle_approval_zip.output_path}"
   function_name    = "${module.label.id}-handle-approval"
   role             = "${aws_iam_role.lambda.arn}"
@@ -122,19 +138,16 @@ resource "aws_lambda_function" "handle_approval" {
 }
 
 resource "aws_api_gateway_rest_api" "default" {
-  count = "${var.enable_handle_approval == "true" ? 1 : 0}"
-  name  = "${module.label.id}"
+  name = "${module.label.id}"
 }
 
 resource "aws_api_gateway_resource" "proxy" {
-  count       = "${var.enable_handle_approval == "true" ? 1 : 0}"
   rest_api_id = "${aws_api_gateway_rest_api.default.id}"
   parent_id   = "${aws_api_gateway_rest_api.default.root_resource_id}"
   path_part   = "{proxy+}"
 }
 
 resource "aws_api_gateway_method" "proxy" {
-  count         = "${var.enable_handle_approval == "true" ? 1 : 0}"
   rest_api_id   = "${aws_api_gateway_rest_api.default.id}"
   resource_id   = "${aws_api_gateway_resource.proxy.id}"
   http_method   = "ANY"
@@ -142,7 +155,6 @@ resource "aws_api_gateway_method" "proxy" {
 }
 
 resource "aws_api_gateway_integration" "lambda" {
-  count       = "${var.enable_handle_approval == "true" ? 1 : 0}"
   rest_api_id = "${aws_api_gateway_rest_api.default.id}"
   resource_id = "${aws_api_gateway_method.proxy.resource_id}"
   http_method = "${aws_api_gateway_method.proxy.http_method}"
@@ -153,7 +165,6 @@ resource "aws_api_gateway_integration" "lambda" {
 }
 
 resource "aws_api_gateway_method" "proxy_root" {
-  count         = "${var.enable_handle_approval == "true" ? 1 : 0}"
   rest_api_id   = "${aws_api_gateway_rest_api.default.id}"
   resource_id   = "${aws_api_gateway_rest_api.default.root_resource_id}"
   http_method   = "ANY"
@@ -161,7 +172,6 @@ resource "aws_api_gateway_method" "proxy_root" {
 }
 
 resource "aws_api_gateway_integration" "lambda_root" {
-  count       = "${var.enable_handle_approval == "true" ? 1 : 0}"
   rest_api_id = "${aws_api_gateway_rest_api.default.id}"
   resource_id = "${aws_api_gateway_method.proxy_root.resource_id}"
   http_method = "${aws_api_gateway_method.proxy_root.http_method}"
@@ -172,8 +182,6 @@ resource "aws_api_gateway_integration" "lambda_root" {
 }
 
 resource "aws_api_gateway_deployment" "default" {
-  count = "${var.enable_handle_approval == "true" ? 1 : 0}"
-
   depends_on = [
     "aws_api_gateway_integration.lambda",
     "aws_api_gateway_integration.lambda_root",
@@ -184,7 +192,6 @@ resource "aws_api_gateway_deployment" "default" {
 }
 
 resource "aws_lambda_permission" "apigw" {
-  count         = "${var.enable_handle_approval == "true" ? 1 : 0}"
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
   function_name = "${aws_lambda_function.handle_approval.arn}"

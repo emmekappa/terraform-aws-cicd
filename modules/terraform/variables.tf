@@ -113,6 +113,6 @@ variable "slack_token" {
 variable "slack_channel" {}
 variable "terraform_state_bucket" {}
 
-variable "approval_lambda_arn" {
+variable "request_approval_sns_topic_arn" {
   default = ""
 }

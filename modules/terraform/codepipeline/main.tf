@@ -141,26 +141,6 @@ data "aws_iam_policy_document" "codebuild" {
   }
 }
 
-resource "aws_sns_topic" "approval_sns" {
-  name = "${module.label.id}-approval-sns"
-}
-
-resource "aws_sns_topic_subscription" "approval_sns_subscription" {
-  count     = "${var.approval_lambda_arn != "" ? 1 : 0}"
-  topic_arn = "${aws_sns_topic.approval_sns.arn}"
-  protocol  = "lambda"
-  endpoint  = "${var.approval_lambda_arn}"
-}
-
-resource "aws_lambda_permission" "approval_lambda_sns_permission" {
-  count         = "${var.approval_lambda_arn != "" ? 1 : 0}"
-  statement_id  = "AllowExecutionFromSNS"
-  action        = "lambda:InvokeFunction"
-  function_name = "${var.approval_lambda_arn}"
-  principal     = "sns.amazonaws.com"
-  source_arn    = "${aws_sns_topic.approval_sns.arn}"
-}
-
 resource "aws_iam_role_policy_attachment" "codebuild_s3" {
   role       = "${var.codebuild_role_arn}"
   policy_arn = "${aws_iam_policy.s3.arn}"
@@ -227,7 +207,7 @@ resource "aws_codepipeline" "source_build" {
       version  = "1"
 
       configuration {
-        NotificationArn = "${aws_sns_topic.approval_sns.arn}"
+        NotificationArn = "${var.request_approval_sns_topic_arn}"
 
         #CustomData         = "${var.approve_comment}"
         #ExternalEntityLink = "${var.approve_url}"

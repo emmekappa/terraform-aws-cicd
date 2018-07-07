@@ -103,6 +103,6 @@ variable "codebuild_role_arn" {}
 
 variable "terraform_state_bucket" {}
 
-variable "approval_lambda_arn" {
+variable "request_approval_sns_topic_arn" {
   default = ""
 }
