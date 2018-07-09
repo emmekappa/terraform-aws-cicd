@@ -25,10 +25,11 @@ def lambda_handler(event, context):
     data = json.loads(message)
     token = data["approval"]["token"]
     codepipeline_name = data["approval"]["pipelineName"]
+    console_link = data["consoleLink"]
 
     slack_message = {
         "channel": SLACK_CHANNEL,
-        "text": f"Would you like to approve the action on {codepipeline_name}?",
+        "text": f"Would you like to approve the action on {codepipeline_name} (more details at: {console_link})?",
         "attachments": [
             {
                 "text": "Yes to approve",
@@ -42,7 +43,7 @@ def lambda_handler(event, context):
                         "text": "Yes",
                         "style": "danger",
                         "type": "button",
-                        "value": json.dumps({"approve": True, "codePipelineToken": token, "codePipelineName": codepipeline_name}),
+                        "value": json.dumps({"approve": True, "codePipelineToken": token, "codePipelineName": codepipeline_name, "consoleLink": console_link}),
                         "confirm": {
                             "title": "Are you sure?",
                             "text": "This may cause destructive operations",
@@ -54,7 +55,7 @@ def lambda_handler(event, context):
                         "name": "deployment",
                         "text": "No",
                         "type": "button",
-                        "value": json.dumps({"approve": False, "codePipelineToken": token, "codePipelineName": codepipeline_name})
+                        "value": json.dumps({"approve": False, "codePipelineToken": token, "codePipelineName": codepipeline_name, "consoleLink": console_link})
                     }
                 ]
             }
