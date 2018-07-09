@@ -18,15 +18,17 @@ def lambda_handler(event, context):
 	if SLACK_VERIFICATION_TOKEN == payload['token']:
 		action = json.loads(payload['actions'][0]['value'])
 		codepipeline_name = action["codePipelineName"]
+		console_link = action["consoleLink"]
 		send_slack_message(action)
 
 		user = payload['user']['name']
+
 		# This will replace the interactive message with a simple text response.
 		# You can implement a more complex message update if you would like.
 		return  {
 			"isBase64Encoded": "false",
 			"statusCode": 200,
-		 	"body": f"{{\"text\": \"The approval on {codepipeline_name} has been confirmed by {user}\"}}"
+		 	"body": f"{{\"text\": \"The approval on {codepipeline_name} has been confirmed by {user} you can check the status at {console_link}\"}}"
 		}
 	else:
 		return  {
