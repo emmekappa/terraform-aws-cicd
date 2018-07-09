@@ -1,3 +1,4 @@
 .build-harness
 **/*.terraform
 **/artifacts/*
+**/node_modules/*

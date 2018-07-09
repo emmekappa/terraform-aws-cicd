@@ -201,3 +201,54 @@ resource "aws_lambda_permission" "apigw" {
   # within the API Gateway "REST API".
   source_arn = "${aws_api_gateway_deployment.default.execution_arn}/*/*"
 }
+
+# CodePipeline status to slack
+
+data "archive_file" "notify_codepipeline_status" {
+  type        = "zip"
+  source_dir  = "${path.module}/notify_status_change"
+  output_path = "artifacts/notify_codepipeline_status.zip"
+}
+
+resource "aws_lambda_function" "notify_codepipeline_status" {
+  filename         = "${data.archive_file.notify_codepipeline_status.output_path}"
+  function_name    = "${module.label.id}-notify-to-slack"
+  handler          = "notify_codepipeline_status.handler"
+  role             = "${aws_iam_role.lambda.arn}"
+  source_code_hash = "${data.archive_file.notify_codepipeline_status.output_base64sha256}"
+  runtime          = "nodejs6.10"
+
+  environment {
+    variables = {
+      SLACK_URL = "${var.slack_webhook_url}"
+    }
+  }
+}
+
+resource "aws_cloudwatch_event_rule" "codepipeline" {
+  name        = "capture-codepipeline-state-changes"
+  description = "Capture each CodePipeline state changes"
+
+  event_pattern = <<PATTERN
+{
+  "source": [ "aws.codepipeline" ],
+  "detail-type": [
+    "CodePipeline Pipeline Execution State Change"
+  ]
+}
+PATTERN
+}
+
+resource "aws_cloudwatch_event_target" "sns" {
+  rule       = "${aws_cloudwatch_event_rule.codepipeline.name}"
+  target_id  = "SendToLambda"
+  arn        = "${aws_lambda_function.notify_codepipeline_status.arn}"
+  depends_on = ["aws_lambda_function.notify_codepipeline_status"]
+}
+
+resource "aws_lambda_permission" "allow_cloudwatch" {
+  statement_id  = "AllowExecutionFromCloudWatch"
+  action        = "lambda:InvokeFunction"
+  function_name = "${aws_lambda_function.notify_codepipeline_status.function_name}"
+  principal     = "events.amazonaws.com"
+}
