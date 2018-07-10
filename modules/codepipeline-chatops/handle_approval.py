@@ -17,6 +17,7 @@ def lambda_handler(event, context):
 	# Validate Slack token
 	if SLACK_VERIFICATION_TOKEN == payload['token']:
 		action = json.loads(payload['actions'][0]['value'])
+		codepipeline_status = "approved" if action["approve"] else "rejected"
 		codepipeline_name = action["codePipelineName"]
 		console_link = action["consoleLink"]
 		send_slack_message(action)
@@ -28,7 +29,7 @@ def lambda_handler(event, context):
 		return  {
 			"isBase64Encoded": "false",
 			"statusCode": 200,
-		 	"body": f"{{\"text\": \"The approval on {codepipeline_name} has been confirmed by {user} you can check the status at {console_link}\"}}"
+		 	"body": f"{{\"text\": \"The approval on {codepipeline_name} has been {codepipeline_status} by {user} you can check the status at {console_link}\"}}"
 		}
 	else:
 		return  {
