@@ -113,6 +113,7 @@ data "aws_iam_policy_document" "permissions" {
       "ecr:InitiateLayerUpload",
       "ecr:PutImage",
       "ecr:UploadLayerPart",
+      "ssm:GetParameters",
     ]
 
     effect = "Allow"
