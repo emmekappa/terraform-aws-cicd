@@ -114,13 +114,6 @@ data "aws_iam_policy_document" "permissions" {
       "ecr:PutImage",
       "ecr:UploadLayerPart",
       "ssm:GetParameters",
-      "ec2:CreateVpc",
-      "ec2:ModifyVpcAttribute",
-      "ec2:DescribeSecurityGroups",
-      "ec2:DescribeVpcAttribute",
-      "ec2:DescribeVpc",
-      "ec2:ModifyVpcAttribute",
-      "ec2:DeleteVpc",
     ]
 
     effect = "Allow"
