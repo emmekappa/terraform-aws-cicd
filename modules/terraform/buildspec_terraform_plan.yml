@@ -20,6 +20,7 @@ phases:
       - echo "Planning shared environment..."
       - cd terraform/shared
       - terragrunt init -input=false
+      - terragrunt get --update
       - terragrunt plan -input=false -no-color -out=plan.out
       - terraform show -no-color plan.out > human_output.txt
       - slack file upload human_output.txt $SLACK_CHANNEL --title "[$CODEBUILD_INITIATOR] Shared infrastructure planning"
@@ -27,6 +28,7 @@ phases:
       - echo "Planning $terraform_environment environment..."
       - cd terraform/$terraform_environment
       - terragrunt init -input=false
+      - terragrunt get --update
       - terragrunt plan -input=false -no-color -out=plan.out
       - terraform show -no-color plan.out > human_output.txt
       - slack file upload human_output.txt $SLACK_CHANNEL --title "[$CODEBUILD_INITIATOR] $terraform_environment infrastructure planning"
