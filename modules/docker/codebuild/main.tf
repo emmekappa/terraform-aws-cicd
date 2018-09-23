@@ -153,15 +153,15 @@ resource "aws_iam_role_policy_attachment" "default_cache_bucket" {
 }
 
 resource "aws_codebuild_project" "default" {
-  name         = "${module.label.id}"
-  service_role = "${aws_iam_role.default.arn}"
+  name          = "${module.label.id}"
+  service_role  = "${aws_iam_role.default.arn}"
+  cache         = ["${local.cache}"]
+  tags          = "${module.label.tags}"
+  badge_enabled = true
 
   artifacts {
     type = "NO_ARTIFACTS"
   }
-
-  # The cache as a list with a map object inside.
-  cache = ["${local.cache}"]
 
   environment {
     compute_type    = "${var.build_compute_type}"
@@ -191,12 +191,11 @@ resource "aws_codebuild_project" "default" {
   }
 
   source {
-    type            = "GITHUB"
-    location        = "https://github.com/${var.repo_owner}/${var.repo_name}.git"
-    git_clone_depth = 1
+    type                = "GITHUB"
+    location            = "https://github.com/${var.repo_owner}/${var.repo_name}.git"
+    git_clone_depth     = 1
+    report_build_status = true
   }
-
-  tags = "${module.label.tags}"
 }
 
 resource "aws_codebuild_webhook" "default" {

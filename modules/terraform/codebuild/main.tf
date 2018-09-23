@@ -22,8 +22,11 @@ data "aws_iam_policy_document" "role" {
     ]
 
     principals {
-      type        = "Service"
-      identifiers = ["codebuild.amazonaws.com"]
+      type = "Service"
+
+      identifiers = [
+        "codebuild.amazonaws.com",
+      ]
     }
 
     effect = "Allow"
@@ -118,8 +121,10 @@ resource "aws_codebuild_project" "plan" {
 }
 
 resource "aws_codebuild_project" "apply" {
-  name         = "${module.label.id}-apply"
-  service_role = "${aws_iam_role.default.arn}"
+  name          = "${module.label.id}-apply"
+  service_role  = "${aws_iam_role.default.arn}"
+  tags          = "${module.label.tags}"
+  badge_enabled = true
 
   artifacts {
     type = "CODEPIPELINE"
@@ -157,6 +162,4 @@ resource "aws_codebuild_project" "apply" {
     type      = "CODEPIPELINE"
     buildspec = "buildspec_terraform_apply.yml"
   }
-
-  tags = "${module.label.tags}"
 }
