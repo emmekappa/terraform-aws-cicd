@@ -128,6 +128,8 @@ resource "aws_codebuild_project" "apply" {
     image           = "${var.build_image}"
     type            = "LINUX_CONTAINER"
     privileged_mode = "${var.privileged_mode}"
+    tags            = "${module.label.tags}"
+    badge_enabled   = true
 
     environment_variable = [
       {
@@ -152,9 +154,7 @@ resource "aws_codebuild_project" "apply" {
   }
 
   source {
-    type      = "CODEPIPELINE"
-    buildspec = "buildspec_terraform_apply.yml"
+    type                = "CODEPIPELINE"
+    buildspec           = "buildspec_terraform_apply.yml"
   }
-
-  tags = "${module.label.tags}"
 }
