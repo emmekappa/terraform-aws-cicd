@@ -121,10 +121,9 @@ resource "aws_codebuild_project" "plan" {
 }
 
 resource "aws_codebuild_project" "apply" {
-  name          = "${module.label.id}-apply"
-  service_role  = "${aws_iam_role.default.arn}"
-  tags          = "${module.label.tags}"
-  badge_enabled = true
+  name         = "${module.label.id}-apply"
+  service_role = "${aws_iam_role.default.arn}"
+  tags         = "${module.label.tags}"
 
   artifacts {
     type = "CODEPIPELINE"
