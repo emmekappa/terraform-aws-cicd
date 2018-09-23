@@ -56,6 +56,8 @@ data "aws_iam_policy_document" "permissions" {
       "application-autoscaling:*",
       "cloudwatch:*",
       "events:*",
+      "ec2:*",
+      "elasticache:*",
     ]
 
     effect = "Allow"
