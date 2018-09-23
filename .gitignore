@@ -1,3 +1,5 @@
 .build-harness
 **/*.terraform
-**/artifacts/*
+**/artifacts/*ù
+*.sln
+*.idea/
