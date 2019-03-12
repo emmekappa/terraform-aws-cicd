@@ -11,3 +11,4 @@ You should copy those files on your GitHub repository root:
 * `buildspec_terraform_apply.yml`
 * `buildspec_terraform_plan.yml`
 * `get_terraform_environment.sh`
+ 
