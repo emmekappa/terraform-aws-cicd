@@ -61,6 +61,7 @@ data "aws_iam_policy_document" "permissions" {
       "events:*",
       "ec2:*",
       "elasticache:*",
+	  "route53:*"
     ]
 
     effect = "Allow"
