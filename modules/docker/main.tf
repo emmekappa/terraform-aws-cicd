@@ -24,6 +24,7 @@ module "codebuild_build" {
   github_token       = "${var.github_token}"
   repo_owner         = "${var.repo_owner}"
   repo_name          = "${var.repo_name}"
+  cache_enabled      = "${var.cache_enabled}"
 }
 
 module "codepipeline" {
