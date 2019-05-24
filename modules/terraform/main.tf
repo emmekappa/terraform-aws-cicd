@@ -7,7 +7,7 @@ data "aws_region" "default" {}
 data "aws_caller_identity" "default" {}
 
 module "codebuild_terraform" {
-  source             = "codebuild"
+  source             = "./codebuild"
   namespace          = "${var.namespace}"
   name               = "${var.name}"
   stage              = "${var.stage}"
@@ -28,7 +28,7 @@ module "codebuild_terraform" {
 }
 
 module "codepipeline_terraform" {
-  source    = "codepipeline"
+  source    = "./codepipeline"
   namespace = "${var.namespace}"
   name      = "${var.name}"
   stage     = "${var.stage}"
