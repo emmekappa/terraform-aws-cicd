@@ -9,9 +9,9 @@ variable "environment_variables" {
   description = "A list of maps, that contain both the key 'name' and the key 'value' to be used as additional environment variables for the build."
 }
 
-variable "cache_enabled" {
+variable "local_cache_enabled" {
   default     = "true"
-  description = "If cache_enabled is true, create an S3 bucket for storing codebuild cache inside"
+  description = "If local_cache_enabled is true, configure codebuild project for local caching"
 }
 
 variable "cache_expiration_days" {
