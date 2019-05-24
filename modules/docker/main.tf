@@ -1,6 +1,6 @@
 provider "aws" {
   region  = "${var.aws_region}"
-  version = "~> 1.37"
+  version = "~> 2.12"
 }
 
 data "aws_region" "default" {}
