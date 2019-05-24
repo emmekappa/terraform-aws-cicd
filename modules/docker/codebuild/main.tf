@@ -19,7 +19,7 @@ locals {
   ## aws_codebuild_project
   cache_def = {
     "true" = [{
-      type  = "local"
+      type  = "LOCAL"
       modes = ["LOCAL_DOCKER_LAYER_CACHE", "LOCAL_SOURCE_CACHE"]
     }]
 
