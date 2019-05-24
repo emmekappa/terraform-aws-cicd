@@ -9,19 +9,9 @@ variable "environment_variables" {
   description = "A list of maps, that contain both the key 'name' and the key 'value' to be used as additional environment variables for the build."
 }
 
-variable "cache_enabled" {
+variable "local_cache_enabled" {
   default     = "true"
-  description = "If cache_enabled is true, create an S3 bucket for storing codebuild cache inside"
-}
-
-variable "cache_expiration_days" {
-  default     = "7"
-  description = "How many days should the build cache be kept."
-}
-
-variable "cache_bucket_suffix_enabled" {
-  default     = "true"
-  description = "The cache bucket generates a random 13 character string to generate a unique bucket name. If set to false it uses terraform-null-label's id value"
+  description = "If local_cache_enabled is true, configure codebuild project for local caching"
 }
 
 variable "build_image" {
