@@ -119,6 +119,6 @@ variable "local_cache_enabled" {
 }
 
 variable "webhook_filtered_event_types" {
-  default = [ "PUSH", "PULL_REQUEST_CREATED", "PULL_REQUEST_REOPENED", "PULL_REQUEST_UPDATED" ]
-  type = list(string)
+  default = ["PUSH", "PULL_REQUEST_CREATED", "PULL_REQUEST_REOPENED", "PULL_REQUEST_UPDATED"]
+  type    = list(string)
 }

@@ -10,24 +10,24 @@ data "aws_caller_identity" "default" {
 }
 
 module "codebuild_build" {
-  source              = "./codebuild"
-  namespace           = var.namespace
-  name                = var.name
-  stage               = var.stage
-  build_image         = var.build_image
-  build_compute_type  = var.build_compute_type
-  buildspec           = var.buildspec
-  delimiter           = var.delimiter
-  attributes          = concat(var.attributes, ["build"])
-  tags                = var.tags
-  privileged_mode     = var.privileged_mode
-  aws_region          = signum(length(var.aws_region)) == 1 ? var.aws_region : data.aws_region.default.name
-  aws_account_id      = signum(length(var.aws_account_id)) == 1 ? var.aws_account_id : data.aws_caller_identity.default.account_id
-  image_repo_name     = var.image_repo_name
-  github_token        = var.github_token
-  repo_owner          = var.repo_owner
-  repo_name           = var.repo_name
-  local_cache_enabled = var.local_cache_enabled
+  source                       = "./codebuild"
+  namespace                    = var.namespace
+  name                         = var.name
+  stage                        = var.stage
+  build_image                  = var.build_image
+  build_compute_type           = var.build_compute_type
+  buildspec                    = var.buildspec
+  delimiter                    = var.delimiter
+  attributes                   = concat(var.attributes, ["build"])
+  tags                         = var.tags
+  privileged_mode              = var.privileged_mode
+  aws_region                   = signum(length(var.aws_region)) == 1 ? var.aws_region : data.aws_region.default.name
+  aws_account_id               = signum(length(var.aws_account_id)) == 1 ? var.aws_account_id : data.aws_caller_identity.default.account_id
+  image_repo_name              = var.image_repo_name
+  github_token                 = var.github_token
+  repo_owner                   = var.repo_owner
+  repo_name                    = var.repo_name
+  local_cache_enabled          = var.local_cache_enabled
   webhook_filtered_event_types = var.webhook_filtered_event_types
 }
 
