@@ -26,7 +26,7 @@ variable "repo_name" {
 }
 
 variable "branches" {
-  type        = "list"
+  type        = list(string)
   description = "A list of branches to monitor (will be created one codepipeline project for each branch), _e.g._ ``master``"
 }
 
@@ -48,25 +48,25 @@ variable "buildspec" {
 # https://www.terraform.io/docs/configuration/variables.html
 # It is recommended you avoid using boolean values and use explicit strings
 variable "poll_source_changes" {
-  type        = "string"
+  type        = string
   default     = "true"
   description = "Periodically check the location of your source content and run the pipeline if changes are detected"
 }
 
 variable "delimiter" {
-  type        = "string"
+  type        = string
   default     = "-"
   description = "Delimiter to be used between `name`, `namespace`, `stage`, etc."
 }
 
 variable "attributes" {
-  type        = "list"
+  type        = list(string)
   default     = []
   description = "Additional attributes (e.g. `policy` or `role`)"
 }
 
 variable "tags" {
-  type        = "map"
+  type        = map(string)
   default     = {}
   description = "Additional tags (e.g. `map('BusinessUnit', 'XYZ')`"
 }
@@ -77,32 +77,38 @@ variable "privileged_mode" {
 }
 
 variable "aws_region" {
-  type        = "string"
+  type        = string
   default     = ""
   description = "AWS Region, e.g. us-east-1. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
 }
 
 variable "aws_account_id" {
-  type        = "string"
+  type        = string
   default     = ""
   description = "AWS Account ID. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
 }
 
 variable "codebuild_plan_project_name" {
-  type        = "string"
+  type        = string
   description = "CodeBuild project that build the sources"
 }
 
-variable "codebuild_plan_project_id" {}
+variable "codebuild_plan_project_id" {
+}
 
-variable "codebuild_apply_project_name" {}
+variable "codebuild_apply_project_name" {
+}
 
-variable "codebuild_apply_project_id" {}
+variable "codebuild_apply_project_id" {
+}
 
-variable "codebuild_role_arn" {}
+variable "codebuild_role_arn" {
+}
 
-variable "terraform_state_bucket" {}
+variable "terraform_state_bucket" {
+}
 
 variable "request_approval_sns_topic_arn" {
   default = ""
 }
+

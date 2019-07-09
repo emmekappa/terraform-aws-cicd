@@ -1,12 +1,17 @@
 variable "environment_variables" {
-  type = "list"
+  type = list(object(
+  {
+    name  = string
+    value = string
+  }))
 
-  default = [{
-    "name"  = "NO_ADDITIONAL_BUILD_VARS"
-    "value" = "TRUE"
-  }]
+  default = [
+    {
+      name  = "NO_ADDITIONAL_BUILD_VARS"
+      value = "TRUE"
+    }]
 
-  description = "A list of maps, that contain both the key 'name' and the key 'value' to be used as additional environment variables for the build."
+  description = "A list of maps, that contain both the key 'name' and the key 'value' to be used as additional environment variables for the build"
 }
 
 variable "local_cache_enabled" {
@@ -39,12 +44,12 @@ variable "buildspec" {
 }
 
 variable "delimiter" {
-  type    = "string"
+  type    = string
   default = "-"
 }
 
 variable "tags" {
-  type    = "map"
+  type    = map(string)
   default = {}
 }
 
@@ -59,13 +64,13 @@ variable "github_token" {
 }
 
 variable "aws_region" {
-  type        = "string"
+  type        = string
   default     = ""
   description = "(Optional) AWS Region, e.g. us-east-1. Used as CodeBuild ENV variable when building Docker images. For more info: http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html"
 }
 
 variable "aws_account_id" {
-  type        = "string"
+  type        = string
   default     = ""
   description = "(Optional) AWS Account ID. Used as CodeBuild ENV variable when building Docker images. For more info: http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html"
 }
@@ -79,7 +84,7 @@ variable "repo_name" {
 }
 
 variable "attributes" {
-  type        = "list"
+  type        = list(string)
   default     = []
   description = "Additional attributes (e.g. `policy` or `role`)"
 }
@@ -111,3 +116,4 @@ variable "slack_token" {
 variable "slack_channel" {
   default = ""
 }
+

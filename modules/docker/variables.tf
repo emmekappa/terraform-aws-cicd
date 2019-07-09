@@ -1,4 +1,5 @@
-variable "github_token" {}
+variable "github_token" {
+}
 
 variable "build_image" {
   default     = "aws/codebuild/docker:1.12.1"
@@ -26,13 +27,13 @@ variable "enabled" {
 }
 
 variable "app" {
-  type        = "string"
+  type        = string
   default     = ""
   description = "Elastic Beanstalk application name. If not provided or set to empty string, the ``Deploy`` stage of the pipeline will not be created"
 }
 
 variable "env" {
-  type        = "string"
+  type        = string
   default     = ""
   description = "Elastic Beanstalk environment name. If not provided or set to empty string, the ``Deploy`` stage of the pipeline will not be created"
 }
@@ -50,7 +51,7 @@ variable "repo_name" {
 }
 
 variable "branches" {
-  type        = "list"
+  type        = list(string)
   description = "A list of branches to monitor (will be created one codepipeline project for each branch), _e.g._ ``master``"
 }
 
@@ -67,25 +68,25 @@ variable "buildspec" {
 # https://www.terraform.io/docs/configuration/variables.html
 # It is recommended you avoid using boolean values and use explicit strings
 variable "poll_source_changes" {
-  type        = "string"
+  type        = string
   default     = "true"
   description = "Periodically check the location of your source content and run the pipeline if changes are detected"
 }
 
 variable "delimiter" {
-  type        = "string"
+  type        = string
   default     = "-"
   description = "Delimiter to be used between `name`, `namespace`, `stage`, etc."
 }
 
 variable "attributes" {
-  type        = "list"
+  type        = list(string)
   default     = []
   description = "Additional attributes (e.g. `policy` or `role`)"
 }
 
 variable "tags" {
-  type        = "map"
+  type        = map(string)
   default     = {}
   description = "Additional tags (e.g. `map('BusinessUnit', 'XYZ')`"
 }
@@ -96,18 +97,18 @@ variable "privileged_mode" {
 }
 
 variable "aws_region" {
-  type        = "string"
+  type        = string
   description = "AWS Region, e.g. us-east-1. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
 }
 
 variable "aws_account_id" {
-  type        = "string"
+  type        = string
   default     = ""
   description = "AWS Account ID. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
 }
 
 variable "image_repo_name" {
-  type        = "string"
+  type        = string
   default     = "UNSET"
   description = "ECR repository name to store the Docker image built by this module. Used as CodeBuild ENV variable when building Docker images. [For more info](http://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html)"
 }
@@ -115,4 +116,9 @@ variable "image_repo_name" {
 variable "local_cache_enabled" {
   default     = "true"
   description = "If local_cache_enabled is true, configure codebuild project for local caching"
+}
+
+variable "webhook_filtered_event_types" {
+  default = [ "PUSH", "PULL_REQUEST_CREATED", "PULL_REQUEST_REOPENED", "PULL_REQUEST_UPDATED" ]
+  type = list(string)
 }
